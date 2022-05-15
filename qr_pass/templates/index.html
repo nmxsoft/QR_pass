@@ -1,13 +1,31 @@
-<!DOCTYPE html>
+{% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
 {% for v in var %}
+<div class="card">
+  <div class="card-body">
   {{ v.username }}
   {{ v.real_name }}
+  {% if v.access == True %}
+      <span style="color:green;">OK</span>
+  {% else %}
+      <span style="color:red;">ACCESS DENIED</span>
+  {% endif %}
+  </div>
+</div>
 {% endfor %}
+
+<form method="post" action="{% url 'passes:create' %}">
+  {% csrf_token %}
+  {{ form }}
+  <button type="submit">Создать</button>
+</form>
+
 </body>
 </html>
