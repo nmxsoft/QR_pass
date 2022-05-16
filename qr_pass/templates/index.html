@@ -7,24 +7,59 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 <body>
-{% for v in var %}
-<div class="card">
-  <div class="card-body">
-  {{ v.username }}
-  {{ v.real_name }}
-  {% if v.access == True %}
-      <span style="color:green;">OK</span>
-  {% else %}
-      <span style="color:red;">ACCESS DENIED</span>
-  {% endif %}
-  </div>
-</div>
-{% endfor %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ник</th>
+      <th scope="col">Полное имя</th>
+      <th scope="col">Доступ</th>
+      <th scope="col">Получить QR</th>
+      <th scope="col">Редактировать</th>
+      <th scope="col">Удалить</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for v in var %}
+    <tr>
+      <td>{{ v.username }}</td>
+      <td>{{ v.real_name }}</td>
+      <td>
+          {% if v.access == True %}
+            <span style="color:green;">ДОСТУП РАЗРЕШЕН</span>
+          {% else %}
+            <span style="color:red;">ДОСТУП ЗАПРЕЩЕН</span>
+          {% endif %}
+      </td>
+      <td>
+          <a href="{% url 'passes:get_qr' v.key %}" type="button" class="btn btn-info">QR</a>
+      </td>
+      <td>
+          <a href="{% url 'passes:edit' v.username %}" type="button" class="btn btn-primary">Редактировать</a>
+      </td>
+      <td>
+          <a href="{% url 'passes:delete' v.username %}"  type="button" class="btn btn-danger">Удалить</a>
+      </td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
 
-<form method="post" action="{% url 'passes:create' %}">
+<form method="post" action="
+    {% if is_edit %}
+      {% url 'passes:edit' nick %}
+    {% else %}
+      {% url 'passes:create' %}
+    {% endif %}"
+>
   {% csrf_token %}
   {{ form }}
-  <button type="submit">Создать</button>
+  <button type="submit" class="btn btn-success">
+    {% if is_edit %}
+      Сохранить
+    {% else %}
+      Создать
+    {% endif %}
+  </button>
 </form>
 
 </body>
