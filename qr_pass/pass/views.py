@@ -1,8 +1,7 @@
 import datetime as dt
-import webbrowser
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Customer
+from .models import Customer, Logs
 from .forms import PassForm
 
 
@@ -70,14 +69,13 @@ def get_qr(request, key):
     context = {
         'url': url
     }
-    # webbrowser.open(url, new=1, autoraise=True)
-    # return redirect('passes:index')
     return render(request, template, context)
 
 
 def check(request, key):
     template = 'access.html'
     user = get_object_or_404(Customer, key=key)
+    Logs.objects.get_or_create(user=user, success=user.access)
     context = {
         'access': user.access,
         'name': user.real_name

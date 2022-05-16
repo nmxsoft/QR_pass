@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Customer
+from .models import Customer, Logs
 
 
 @admin.register(Customer)
@@ -10,4 +10,13 @@ class PassRegister(admin.ModelAdmin):
         'real_name',
         'access',
         'key'
+    )
+
+
+@admin.register(Logs)
+class LogsRegister(admin.ModelAdmin):
+    list_display = (
+        'user',
+        'visit',
+        'success'
     )
