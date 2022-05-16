@@ -1,14 +1,4 @@
-import datetime as dt
 from django.db import models
-
-
-def create_key():
-    return (str(dt.datetime.now())
-            .replace(' ', '')
-            .replace('-', '')
-            .replace(':', '')
-            .replace('.', '')
-            )
 
 
 class Customer(models.Model):
@@ -30,7 +20,7 @@ class Customer(models.Model):
     key = models.CharField(
         max_length=20,
         verbose_name='секретный ключ',
-        default=create_key()
+        default='11111111111111111111'
     )
 
     def __str__(self):
