@@ -27,9 +27,12 @@ class Customer(models.Model):
 
 
 class Logs(models.Model):
-    user = models.CharField(
-        max_length=100,
-        verbose_name='Ник посетителя'
+    user = models.ForeignKey(
+        Customer,
+        on_delete=models.CASCADE,
+        verbose_name='Ник посетителя',
+        related_name='logos'
+
     )
     visit = models.DateTimeField(
         verbose_name='Время входа',

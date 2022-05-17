@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Логи{% endblock %}
+{% block content %}
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Ник</th>
+      <th scope="col">Время входа</th>
+      <th scope="col">Доступ</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for l in log %}
+    <tr>
+      <td>{{ l.user }}</td>
+      <td>{{ l.visit }}</td>
+      <td>{{ l.success }}</td>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

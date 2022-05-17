@@ -1,4 +1,13 @@
+APScheduler==3.6.3
 asgiref==3.5.1
+cachetools==4.2.2
+certifi==2021.10.8
 Django==4.0.4
+python-telegram-bot==13.11
+pytz==2022.1
+pytz-deprecation-shim==0.1.0.post0
+six==1.16.0
 sqlparse==0.4.2
+tornado==6.1
 tzdata==2022.1
+tzlocal==4.2

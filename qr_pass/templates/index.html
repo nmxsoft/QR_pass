@@ -1,12 +1,7 @@
-{% load static %}
+{% extends 'base.html' %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Управление посетителями</title>
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-</head>
-<body>
+{% block title %}Панель управления{% endblock %}
+{% block content %}
 <table class="table">
   <thead>
     <tr>
@@ -43,24 +38,22 @@
   {% endfor %}
   </tbody>
 </table>
-
-<form method="post" action="
-    {% if is_edit %}
-      {% url 'passes:edit' nick %}
-    {% else %}
-      {% url 'passes:create' %}
-    {% endif %}"
->
-  {% csrf_token %}
-  {{ form }}
-  <button type="submit" class="btn btn-success">
-    {% if is_edit %}
-      Сохранить
-    {% else %}
-      Создать
-    {% endif %}
-  </button>
-</form>
-
-</body>
-</html>
+<div class="container">
+  <form method="post" action="
+      {% if is_edit %}
+        {% url 'passes:edit' nick %}
+      {% else %}
+        {% url 'passes:create' %}
+      {% endif %}">
+    {% csrf_token %}
+    {{ form }}
+    <button type="submit" class="btn btn-success">
+      {% if is_edit %}
+        Сохранить
+      {% else %}
+        Создать
+      {% endif %}
+    </button>
+  </form>
+</div>
+{% endblock %}

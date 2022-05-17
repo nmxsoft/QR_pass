@@ -11,4 +11,5 @@ urlpatterns = [
     path('delete/<str:nick>', views.delete, name='delete'),
     path('get-qr/<str:key>', views.get_qr, name='get_qr'),
     path('check/<str:key>', views.check, name='check'),
+    path('logs/', views.logs, name='logs'),
 ]

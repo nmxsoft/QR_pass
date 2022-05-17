@@ -1,8 +1,11 @@
 import datetime as dt
+
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Customer, Logs
 from .forms import PassForm
+from .telegram import send_message
 
 
 def create_key():
@@ -14,6 +17,7 @@ def create_key():
             )
 
 
+@login_required
 def index(request):
     template = 'index.html'
     var = Customer.objects.all()
@@ -74,10 +78,35 @@ def get_qr(request, key):
 
 def check(request, key):
     template = 'access.html'
-    user = get_object_or_404(Customer, key=key)
-    Logs.objects.get_or_create(user=user, success=user.access)
+    try:
+        user = get_object_or_404(Customer, key=key)
+    except Exception:
+        # send_message(
+        #     f'Попытка использовать неверный код: {key} в: '
+        #     f'{str(dt.datetime.now())[:-7]}'
+        # )
+        return render(request, 'bad_qr.html')
+    Logs.objects.create(user=user, success=user.access)
+    message = (
+            'Доступ запросил: ' +
+            str(user.real_name) +
+            '(' + str(user) + '), ' +
+            'получил доступ: ' + str(user.access) +
+            ', в: ' + str(dt.datetime.now())[:-7]
+    )
+    # send_message(message)
     context = {
         'access': user.access,
         'name': user.real_name
+    }
+    return render(request, template, context)
+
+
+@login_required
+def logs(request):
+    template = 'logs.html'
+    log = Logs.objects.all()
+    context = {
+        'log': log,
     }
     return render(request, template, context)

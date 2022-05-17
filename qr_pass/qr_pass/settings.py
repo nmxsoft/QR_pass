@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pass'
+    'pass',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -107,6 +108,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'passes:index'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
