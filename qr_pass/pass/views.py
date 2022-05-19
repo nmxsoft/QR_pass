@@ -81,10 +81,10 @@ def check(request, key):
     try:
         user = get_object_or_404(Customer, key=key)
     except Exception:
-        # send_message(
-        #     f'Попытка использовать неверный код: {key} в: '
-        #     f'{str(dt.datetime.now())[:-7]}'
-        # )
+        send_message(
+            f'Попытка использовать неверный код: {key} в: '
+            f'{str(dt.datetime.now())[:-7]}'
+        )
         return render(request, 'bad_qr.html')
     Logs.objects.create(user=user, success=user.access)
     message = (
@@ -94,7 +94,7 @@ def check(request, key):
             'получил доступ: ' + str(user.access) +
             ', в: ' + str(dt.datetime.now())[:-7]
     )
-    # send_message(message)
+    send_message(message)
     context = {
         'access': user.access,
         'name': user.real_name

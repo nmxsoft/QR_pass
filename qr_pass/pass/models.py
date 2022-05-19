@@ -42,3 +42,7 @@ class Logs(models.Model):
         verbose_name='Попытка входа',
         default=False
     )
+
+    class Meta:
+        ordering = ('-visit',)
+        
