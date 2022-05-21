@@ -6,6 +6,7 @@
   <thead>
     <tr>
       <th scope="col">Ник</th>
+      <th scope="col">Реальное имя</th>
       <th scope="col">Время входа</th>
       <th scope="col">Доступ</th>
     </tr>
@@ -14,6 +15,7 @@
   {% for l in log %}
     <tr>
       <td>{{ l.user }}</td>
+      <td>{{ l.user.real_name }}</td>
       <td>{{ l.visit }}</td>
       <td>{{ l.success }}</td>
     </tr>

@@ -9,7 +9,8 @@ class PassRegister(admin.ModelAdmin):
         'username',
         'real_name',
         'access',
-        'key'
+        'key',
+        'master'
     )
 
 

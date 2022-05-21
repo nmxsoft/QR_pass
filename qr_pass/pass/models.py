@@ -1,4 +1,8 @@
+from django.contrib.auth import get_user_model
 from django.db import models
+
+
+User = get_user_model()
 
 
 class Customer(models.Model):
@@ -20,6 +24,12 @@ class Customer(models.Model):
         max_length=20,
         verbose_name='секретный ключ',
         default='11111111111111111111'
+    )
+    master = models.ForeignKey(
+        User,
+        verbose_name="Создатель",
+        on_delete=models.CASCADE,
+        related_name='customers'
     )
 
     def __str__(self):
@@ -45,4 +55,3 @@ class Logs(models.Model):
 
     class Meta:
         ordering = ('-visit',)
-        

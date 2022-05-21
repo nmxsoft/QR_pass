@@ -1,9 +1,13 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">QR Pass</a>
+      {% if user.is_authenticated %}
+    <div class="nav-item" style="color:blue;">Пользователь: {{ user.username }}</div>
+      {% endif %}
   </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      {% if user.is_authenticated %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'passes:index' %}">Управление</a>
         </li>
@@ -11,11 +15,10 @@
           <a class="nav-link" href="{% url 'passes:logs' %}">Логи</a>
         </li>
         <li class="nav-item">
-          {% if user.is_authenticated %}
-          <a class="nav-link" href="{% url 'users:logout' %}">{{ user.username }}  Выйти</a>
-          {% else %}
+          <a class="nav-link" href="{% url 'users:logout' %}">Выйти</a>
+      {% else %}
           <a class="nav-link" href="{% url 'users:login' %}">Войти</a>
-          {% endif %}
+      {% endif %}
         </li>
       </ul>
     </div>

@@ -20,7 +20,7 @@ def create_key():
 @login_required
 def index(request):
     template = 'index.html'
-    var = Customer.objects.all()
+    var = Customer.objects.filter(master=request.user)
     form = PassForm()
     context = {
         'var': var,
@@ -35,6 +35,7 @@ def create(request):
     if form.is_valid():
         new_rec = form.save(commit=False)
         new_rec.key = key
+        new_rec.master = request.user
         new_rec.save()
     return redirect('passes:index')
 
@@ -49,7 +50,7 @@ def edit(request, nick):
         form.save()
         return redirect('passes:index')
     template = 'index.html'
-    var = Customer.objects.all()
+    var = Customer.objects.filter(master=request.user)
     context = {
         'var': var,
         'form': form,
@@ -105,7 +106,7 @@ def check(request, key):
 @login_required
 def logs(request):
     template = 'logs.html'
-    log = Logs.objects.all()
+    log = Logs.objects.filter(user__master=request.user)
     context = {
         'log': log,
     }
