@@ -29,43 +29,50 @@ def index(request):
     return render(request, template, context)
 
 
+@login_required
 def create(request):
     form = PassForm(request.POST or None)
-    key = create_key()
     if form.is_valid():
         new_rec = form.save(commit=False)
-        new_rec.key = key
+        new_rec.key = create_key()
         new_rec.master = request.user
         new_rec.save()
     return redirect('passes:index')
 
 
+@login_required
 def edit(request, nick):
     user = get_object_or_404(Customer, username=nick)
-    form = PassForm(
-        request.POST or None,
-        instance=user
-    )
-    if form.is_valid():
-        form.save()
+    if user.master == request.user:
+        form = PassForm(
+            request.POST or None,
+            instance=user
+        )
+        if form.is_valid():
+            form.save()
+            return redirect('passes:index')
+        template = 'index.html'
+        var = Customer.objects.filter(master=request.user)
+        context = {
+            'var': var,
+            'form': form,
+            'is_edit': True,
+            'nick': nick
+        }
+        return render(request, template, context)
+    else:
         return redirect('passes:index')
-    template = 'index.html'
-    var = Customer.objects.filter(master=request.user)
-    context = {
-        'var': var,
-        'form': form,
-        'is_edit': True,
-        'nick': nick
-    }
-    return render(request, template, context)
 
 
+@login_required
 def delete(request, nick):
     user = get_object_or_404(Customer, username=nick)
-    user.delete()
+    if user.master == request.user:
+        user.delete()
     return redirect('passes:index')
 
 
+@login_required
 def get_qr(request, key):
     api_url = 'https://qrcode.tec-it.com/API/QRCode?data='
     my_url = 'http://127.0.0.1:8000/check/'
