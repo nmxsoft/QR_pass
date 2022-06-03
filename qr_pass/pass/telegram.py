@@ -1,8 +1,8 @@
 import telegram
 
 
-TELEGRAM_TOKEN = '5323147839:AAG4hmkSoKIVeSwJv3O81pfzCgnPGfjup-c'
-TELEGRAM_CHAT_ID = '1684022747'
+TELEGRAM_TOKEN = 'telegram-token'
+TELEGRAM_CHAT_ID = 'chat-id'
 
 
 def send_message(message):
